@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summative Reflection Rubric — G10 GRIT Unit</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #141414;
+    --mid: #555;
+    --light: #888;
+    --border: #d8d4ce;
+    --bg: #faf8f5;
+    --white: #ffffff;
+    --ny: #d63030;
+    --ny-bg: #fff0f0;
+    --ny-border: #f5c0c0;
+    --me: #b06000;
+    --me-bg: #fff8ed;
+    --me-border: #f0d090;
+    --ex: #1a7a40;
+    --ex-bg: #eef9f2;
+    --ex-border: #9ed8b8;
+    --accent: #1a3a8f;
+    --accent-bg: #eef2fc;
+    --accent-border: #b0c4f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .page { max-width: 1040px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Header */
+  .doc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .doc-header-left {}
+  .doc-stamp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 6px;
+  }
+  .doc-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  .doc-meta {
+    font-size: 13px;
+    color: var(--mid);
+    margin-top: 4px;
+  }
+  .doc-header-right { text-align: right; }
+  .toggle-view {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .toggle-btn {
+    padding: 8px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: var(--white);
+    border: none;
+    color: var(--mid);
+    border-right: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .toggle-btn:last-child { border-right: none; }
+  .toggle-btn.active { background: var(--ink); color: white; }
+
+  /* View panels */
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Section */
+  .section { margin-bottom: 40px; }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--light);
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .section-weight {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  /* Rubric table */
+  .rubric-table { width: 100%; border-collapse: collapse; }
+  .rubric-table th {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+  }
+  .rubric-table th.col-criteria { width: 22%; }
+  .rubric-table th.col-ny { background: var(--ny-bg); color: var(--ny); border-bottom-color: var(--ny); }
+  .rubric-table th.col-me { background: var(--me-bg); color: var(--me); border-bottom-color: var(--me); }
+  .rubric-table th.col-ex { background: var(--ex-bg); color: var(--ex); border-bottom-color: var(--ex); }
+  .rubric-table th.col-score { width: 80px; text-align: center; }
+  .rubric-table td {
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.65;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+  }
+  .rubric-table tr:last-child td { border-bottom: none; }
+  .rubric-table td.col-criteria { font-weight: 500; color: var(--ink); border-right: 1px solid var(--border); }
+  .rubric-table td.col-ny { background: var(--ny-bg); color: #6a1010; border-right: 1px solid var(--ny-border); }
+  .rubric-table td.col-me { background: var(--me-bg); color: #5a3a00; border-right: 1px solid var(--me-border); }
+  .rubric-table td.col-ex { background: var(--ex-bg); color: #0a4020; border-right: 1px solid var(--ex-border); }
+  .rubric-table td.col-score { text-align: center; vertical-align: middle; border-right: none; }
+  .rubric-table td.col-score select {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+    width: 60px;
+    text-align: center;
+  }
+  .criteria-sub { font-size: 11px; font-weight: 400; color: var(--light); margin-top: 2px; }
+  .bullet-list { list-style: none; padding: 0; }
+  .bullet-list li { padding: 2px 0 2px 14px; position: relative; font-size: 13px; line-height: 1.55; }
+  .bullet-list li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+
+  /* Score summary */
+  .score-summary {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .summary-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 2px; }
+  .summary-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .summary-value span { font-size: 1rem; color: var(--mid); }
+  .final-comment {
+    flex: 1;
+    min-width: 200px;
+  }
+  .final-comment textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    resize: none;
+    min-height: 70px;
+    outline: none;
+  }
+  .final-comment textarea:focus { border-color: var(--accent); }
+
+  /* Student view */
+  .student-section { margin-bottom: 32px; }
+  .student-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .student-card-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f3f0;
+  }
+  .student-card-header h3 { font-size: 14px; font-weight: 600; }
+  .student-card-header .weight-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .student-levels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .level-col { padding: 14px 16px; border-right: 1px solid var(--border); }
+  .level-col:last-child { border-right: none; }
+  .level-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .level-chip { padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; }
+  .chip-ny { background: var(--ny-bg); color: var(--ny); }
+  .chip-me { background: var(--me-bg); color: var(--me); }
+  .chip-ex { background: var(--ex-bg); color: var(--ex); }
+  .level-col ul { list-style: none; }
+  .level-col ul li { font-size: 12px; line-height: 1.6; color: var(--mid); padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .level-col ul li:last-child { border-bottom: none; }
+  .level-col ul li::before { content: '· '; color: var(--border); }
+
+  .student-self {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    background: #fafaf8;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .self-label { font-size: 12px; font-weight: 600; color: var(--mid); }
+  .self-score-input {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    width: 60px;
+    text-align: center;
+    outline: none;
+  }
+  .self-score-input:focus { border-color: var(--accent); }
+  .self-evidence {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    min-width: 140px;
+  }
+  .self-evidence:focus { border-color: var(--accent); }
+
+  /* Tips box */
+  .tips-box {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 28px;
+  }
+  .tips-box h3 { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  .tips-box ul { list-style: none; }
+  .tips-box ul li { font-size: 13px; color: #1a2a60; line-height: 1.6; padding: 3px 0; display: flex; gap: 8px; }
+  .tips-box ul li::before { content: '→'; color: var(--accent); font-weight: 600; flex-shrink: 0; }
+
+  /* Print */
+  .print-btn {
+    padding: 9px 18px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .print-btn:hover { background: #333; }
+
+  @media (max-width: 640px) {
+    .student-levels { grid-template-columns: 1fr; }
+    .level-col { border-right: none; border-bottom: 1px solid var(--border); }
+    .doc-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media print {
+    body { background: white; }
+    .toggle-view, .print-btn { display: none; }
+    .view { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="doc-stamp">Frankfurt International School · G10 PE & Balance · Individual Experiences</div>
+      <div class="doc-title">Summative Reflection Rubric<br>GRIT Unit — Cardio Group</div>
+      <div class="doc-meta">Assessment: Demonstration of GRIT — Physical & Academic &nbsp;·&nbsp; Total: /28</div>
+    </div>
+    <div class="doc-header-right">
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+        <div class="toggle-view">
+          <button class="toggle-btn active" onclick="setView('teacher')">Teacher</button>
+          <button class="toggle-btn" onclick="setView('student')">Student</button>
+        </div>
+        <button class="print-btn" onclick="window.print()">Print</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEACHER VIEW -->
+  <div class="view active" id="view-teacher">
+
+    <!-- Section 1: Physical GRIT -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <span class="section-title">GRIT — Physical Interest & Effort</span>
+        <span class="section-weight">/ 14 pts</span>
+      </div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th class="col-criteria">Criteria</th>
+            <th class="col-ny">Not Yet (1–3)</th>
+            <th class="col-me">Meets Expectations (4–5)</th>
+            <th class="col-ex">Exceeding (6–7)</th>
+            <th class="col-score">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-criteria">Active Participation & Effort<div class="criteria-sub">Physical Effort pillar</div></td>
+            <td class="col-ny"><ul class="bullet-list"><li>Often disengaged or inactive during workouts</li><li>Stops when challenged without attempting strategies</li><li>Consistently below expected effort level</li></ul></td>
+            <td class="col-me"><ul class="bullet-list"><li>Maintains high active participation across most lessons</li><li>Consistently completes tasks to best of ability</li><li>Pushes through discomfort in challenging exercises</li></ul></td>
+            <td class="col-ex"><ul class="bullet-list"><li>Demonstrates exceptional effort — attempts harder variations, additional reps</li><li>Supports or encourages peers without being asked</li><li>Noticeably exceeds expected output</li></ul></td>
+            <td class="col-score"><select><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></td>
+          </tr>
+          <tr>
+            <td class="col-criteria">Enthusiasm & Curiosity<div class="criteria-sub">Physical Interest pillar</div></td>
+            <td class="col-ny"><ul class="bullet-list"><li>Reluctant to try new exercises or formats</li><li>Shows little enthusiasm or motivation</li><li>Avoids unfamiliar movements</li></ul></td>
+            <td class="col-me"><ul class="bullet-list"><li>Willing and enthusiastic about trying all exercise formats</li><li>Engages positively with unfamiliar activities (e.g. BINGO, partner drills)</li><li>Sets and pursues personal goals (e.g. lap targets, PB)</li></ul></td>
+            <td class="col-ex"><ul class="bullet-list"><li>Shows genuine curiosity — asks questions, experiments with form</li><li>In Lesson 8: designs an engaging, challenging student station</li><li>Personal Best improvement clearly reflects sustained interest</li></ul></td>
+            <td class="col-score"><select><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Academic GRIT -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <span class="section-title">GRIT — Academic Interest & Effort</span>
+        <span class="section-weight">/ 14 pts</span>
+      </div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th class="col-criteria">Criteria</th>
+            <th class="col-ny">Not Yet (1–3)</th>
+            <th class="col-me">Meets Expectations (4–5)</th>
+            <th class="col-ex">Exceeding (6–7)</th>
+            <th class="col-score">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-criteria">Reflection Quality<div class="criteria-sub">Journal 1 + Post-unit slides</div></td>
+            <td class="col-ny"><ul class="bullet-list"><li>Reflections are vague or very brief</li><li>No specific examples from lessons referenced</li><li>Little evidence of self-awareness or honesty</li></ul></td>
+            <td class="col-me"><ul class="bullet-list"><li>Identifies challenges and strategies with some specificity</li><li>Makes clear links between GRIT scores and personal experience</li><li>Pre/post comparison shows genuine self-evaluation</li></ul></td>
+            <td class="col-ex"><ul class="bullet-list"><li>Reflection is specific, insightful, and uses lesson examples as evidence</li><li>Shows clear understanding of which GRIT pillars grew and why</li><li>Personal Best data is analysed — not just reported</li></ul></td>
+            <td class="col-score"><select><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></td>
+          </tr>
+          <tr>
+            <td class="col-criteria">Understanding of GRIT<div class="criteria-sub">Academic Interest pillar + Slide 10</div></td>
+            <td class="col-ny"><ul class="bullet-list"><li>Definition of GRIT is surface-level or copied</li><li>Cannot connect GRIT concepts to own experience</li><li>No meaningful answer to "How will you apply this in future?"</li></ul></td>
+            <td class="col-me"><ul class="bullet-list"><li>Demonstrates clear understanding of the four GRIT pillars</li><li>Connects GRIT theory to own behaviour in the unit</li><li>Can articulate a meaningful application of GRIT beyond PE</li></ul></td>
+            <td class="col-ex"><ul class="bullet-list"><li>Makes original connections — links GRIT to other subjects, sport, or life</li><li>Demonstrates growth mindset language throughout writing</li><li>Response to "apply in future" is specific and credible</li></ul></td>
+            <td class="col-score"><select><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Score summary -->
+    <div class="score-summary">
+      <div>
+        <div class="summary-label">Total Score</div>
+        <div class="summary-value" id="total-display">— <span>/ 28</span></div>
+      </div>
+      <div>
+        <div class="summary-label">Student Name</div>
+        <input type="text" placeholder="Enter name" style="border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;outline:none;width:200px;" />
+      </div>
+      <div class="final-comment">
+        <div class="summary-label" style="margin-bottom:4px;">Teacher Comment</div>
+        <textarea placeholder="Key strength and one area for growth..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STUDENT VIEW -->
+  <div class="view" id="view-student">
+
+    <div class="tips-box">
+      <h3>How to use this rubric</h3>
+      <ul>
+        <li>Read each level carefully before giving yourself a score — be honest, not generous.</li>
+        <li>Your score must be backed by a specific example from a lesson. "I tried hard" is not evidence. "In Lesson 4, during the partner burpee drill, I kept going even though I wanted to stop" is evidence.</li>
+        <li>Your teacher will compare your self-assessment to theirs. If they're very different, you'll discuss why.</li>
+      </ul>
+    </div>
+
+    <!-- Physical -->
+    <div class="student-section">
+      <div class="student-card">
+        <div class="student-card-header">
+          <h3>Physical Interest & Effort</h3>
+          <span class="weight-chip">/ 14 pts</span>
+        </div>
+        <div class="student-levels">
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-ny">Not Yet · 1–3</span></div>
+            <ul>
+              <li>Often disengaged during workouts</li>
+              <li>Stops when it gets hard without trying</li>
+              <li>Avoids new exercise formats</li>
+              <li>Shows little enthusiasm day to day</li>
+            </ul>
+          </div>
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-me">Meets · 4–5</span></div>
+            <ul>
+              <li>Active and engaged in most lessons</li>
+              <li>Completes all tasks to best of ability</li>
+              <li>Willing to try new movements</li>
+              <li>Sets and pursues a personal goal</li>
+            </ul>
+          </div>
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-ex">Exceeding · 6–7</span></div>
+            <ul>
+              <li>Attempts harder variations unprompted</li>
+              <li>Encourages peers during workouts</li>
+              <li>Designs a great student station (L8)</li>
+              <li>PB improvement reflects real effort over time</li>
+            </ul>
+          </div>
+        </div>
+        <div class="student-self">
+          <span class="self-label">My score</span>
+          <input class="self-score-input" type="number" min="1" max="7" placeholder="1–7" />
+          <span class="self-label" style="margin-left:8px;">Evidence from a specific lesson:</span>
+          <input class="self-evidence" type="text" placeholder="e.g. In Lesson 3, when the ladder came back down I felt exhausted but I..." />
+        </div>
+      </div>
+    </div>
+
+    <!-- Academic -->
+    <div class="student-section">
+      <div class="student-card">
+        <div class="student-card-header">
+          <h3>Academic Interest & Effort</h3>
+          <span class="weight-chip">/ 14 pts</span>
+        </div>
+        <div class="student-levels">
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-ny">Not Yet · 1–3</span></div>
+            <ul>
+              <li>Reflections are vague or too brief</li>
+              <li>No examples from specific lessons</li>
+              <li>GRIT definition feels surface-level</li>
+              <li>Future application answer is generic</li>
+            </ul>
+          </div>
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-me">Meets · 4–5</span></div>
+            <ul>
+              <li>Identifies challenges with specifics</li>
+              <li>Links GRIT score to real experience</li>
+              <li>Clear pre/post self-evaluation</li>
+              <li>Meaningful answer on applying GRIT</li>
+            </ul>
+          </div>
+          <div class="level-col">
+            <div class="level-head"><span class="level-chip chip-ex">Exceeding · 6–7</span></div>
+            <ul>
+              <li>Insightful, specific, honest writing</li>
+              <li>Analyses PB data — not just reports it</li>
+              <li>Connects GRIT to life beyond PE</li>
+              <li>Growth mindset visible throughout</li>
+            </ul>
+          </div>
+        </div>
+        <div class="student-self">
+          <span class="self-label">My score</span>
+          <input class="self-score-input" type="number" min="1" max="7" placeholder="1–7" />
+          <span class="self-label" style="margin-left:8px;">Evidence from your writing:</span>
+          <input class="self-evidence" type="text" placeholder="e.g. In my journal entry I described how in Lesson 4 I realised that..." />
+        </div>
+      </div>
+    </div>
+
+    <!-- Student total -->
+    <div class="score-summary">
+      <div>
+        <div class="summary-label">My Total</div>
+        <div class="summary-value">— <span>/ 28</span></div>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div class="summary-label" style="margin-bottom:4px;">One thing I'm proud of this unit</div>
+        <input type="text" placeholder="Be specific..." style="width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;" />
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div class="summary-label" style="margin-bottom:4px;">One thing I'll do differently next time</div>
+        <input type="text" placeholder="Be specific..." style="width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;" />
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function setView(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.toggle-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Live total calculation
+document.querySelectorAll('.rubric-table select').forEach(sel => {
+  sel.addEventListener('change', updateTotal);
+});
+
+function updateTotal() {
+  const selects = document.querySelectorAll('.rubric-table select');
+  let total = 0;
+  let allFilled = true;
+  selects.forEach(s => {
+    if (s.value) total += parseInt(s.value);
+    else allFilled = false;
+  });
+  document.getElementById('total-display').innerHTML = (allFilled ? total : '—') + ' <span>/ 28</span>';
+}
+</script>
+</body>
+</html>
